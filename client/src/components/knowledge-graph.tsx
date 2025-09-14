@@ -71,11 +71,40 @@ export default function KnowledgeGraph({ publications, experiments }: KnowledgeG
             <p className="text-sm text-muted-foreground">Experiment relationships and cross-connections</p>
           </div>
           <div className="flex space-x-2">
-            <Button variant="outline" size="sm" data-testid="button-fullscreen-graph">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              data-testid="button-fullscreen-graph"
+              onClick={() => {
+                const graphElement = document.querySelector('[data-testid="knowledge-graph-svg"]');
+                if (graphElement && document.documentElement.requestFullscreen) {
+                  graphElement.parentElement?.requestFullscreen();
+                }
+              }}
+            >
               <Maximize2 size={16} className="mr-1" />
               Fullscreen
             </Button>
-            <Button variant="default" size="sm" data-testid="button-export-graph">
+            <Button 
+              variant="default" 
+              size="sm" 
+              data-testid="button-export-graph"
+              onClick={() => {
+                const svgElement = document.querySelector('[data-testid="knowledge-graph-svg"]') as SVGElement;
+                if (svgElement) {
+                  const svgData = new XMLSerializer().serializeToString(svgElement);
+                  const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+                  const svgUrl = URL.createObjectURL(svgBlob);
+                  const downloadLink = document.createElement('a');
+                  downloadLink.href = svgUrl;
+                  downloadLink.download = 'knowledge-graph.svg';
+                  document.body.appendChild(downloadLink);
+                  downloadLink.click();
+                  document.body.removeChild(downloadLink);
+                  URL.revokeObjectURL(svgUrl);
+                }
+              }}
+            >
               <Download size={16} className="mr-1" />
               Export
             </Button>

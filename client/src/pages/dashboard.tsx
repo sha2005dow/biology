@@ -122,7 +122,7 @@ export default function Dashboard() {
         
         <main className="flex-1 p-6 space-y-6 max-w-full">
           {/* AI Insights Banner */}
-          <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 rounded-lg p-4">
+          <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/30 rounded-lg p-4" data-testid="ai-insights-section">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Brain className="text-accent ai-processing" size={24} />
@@ -153,6 +153,35 @@ export default function Dashboard() {
                 </Button>
               </div>
             </div>
+            
+            {/* Display AI Insights */}
+            {aiInsights.length > 0 && (
+              <div className="mt-4 space-y-3">
+                <h4 className="text-sm font-medium text-foreground">Recent Insights</h4>
+                {aiInsights.slice(0, 3).map((insight) => (
+                  <div key={insight.id} className="bg-background/50 rounded-lg p-3 border border-border/50">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h5 className="text-sm font-medium text-foreground">{insight.title}</h5>
+                        <p className="text-xs text-muted-foreground mt-1">{insight.description}</p>
+                        <div className="flex items-center mt-2 space-x-2">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            insight.type === 'correlation' ? 'bg-chart-1/20 text-chart-1' :
+                            insight.type === 'trend' ? 'bg-chart-2/20 text-chart-2' :
+                            'bg-chart-3/20 text-chart-3'
+                          }`}>
+                            {insight.type}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {insight.confidence}% confidence
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Stats Overview */}

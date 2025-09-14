@@ -93,7 +93,18 @@ export default function PublicationCard({ publication, featured = false }: Publi
               Views: {publication.viewCount.toLocaleString()}
             </span>
           </div>
-          <Button data-testid={`button-view-study-${publication.id}`}>
+          <Button 
+            data-testid={`button-view-study-${publication.id}`}
+            onClick={() => {
+              // Open publication details in new tab or modal
+              if (publication.doi) {
+                window.open(`https://doi.org/${publication.doi}`, '_blank');
+              } else {
+                // Show publication details modal or navigate to detail page
+                console.log('View publication details:', publication.id);
+              }
+            }}
+          >
             View Full Study
           </Button>
         </div>
@@ -144,7 +155,20 @@ export default function PublicationCard({ publication, featured = false }: Publi
             <Quote size={12} className="inline mr-1" />
             {publication.citationCount} citations
           </div>
-          <Button variant="ghost" size="sm" className="text-primary hover:text-primary/80" data-testid={`button-read-more-${publication.id}`}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="text-primary hover:text-primary/80" 
+            data-testid={`button-read-more-${publication.id}`}
+            onClick={() => {
+              // Open publication details
+              if (publication.doi) {
+                window.open(`https://doi.org/${publication.doi}`, '_blank');
+              } else {
+                console.log('Read more about publication:', publication.id);
+              }
+            }}
+          >
             <span className="mr-1">Read More</span>
             <ArrowRight size={14} />
           </Button>

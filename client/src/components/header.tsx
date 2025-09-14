@@ -44,7 +44,17 @@ export default function Header({ onSearch }: HeaderProps) {
               <Search className="absolute left-3 top-3 text-muted-foreground" size={16} />
             </form>
             
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90" data-testid="button-ai-insights">
+            <Button 
+              className="bg-primary text-primary-foreground hover:bg-primary/90" 
+              data-testid="button-ai-insights"
+              onClick={() => {
+                // Scroll to AI insights section or show insights modal
+                const insightsSection = document.querySelector('[data-testid="ai-insights-section"]');
+                if (insightsSection) {
+                  insightsSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+            >
               <Brain size={16} className="mr-2" />
               AI Insights
             </Button>

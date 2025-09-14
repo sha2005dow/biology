@@ -87,9 +87,49 @@ export default function ResearchTimeline({ experiments }: ResearchTimelineProps)
             <p className="text-sm text-muted-foreground">Evolution of space biology research over time</p>
           </div>
           <div className="flex space-x-2">
-            <Button variant="default" size="sm">All</Button>
-            <Button variant="outline" size="sm">Biology</Button>
-            <Button variant="outline" size="sm">Physics</Button>
+            <Button 
+              variant="default" 
+              size="sm"
+              onClick={() => {
+                // Show all timeline items
+                const timelineItems = document.querySelectorAll('[data-testid^="timeline-item-"]');
+                timelineItems.forEach(item => {
+                  (item as HTMLElement).style.display = 'block';
+                });
+              }}
+            >
+              All
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                // Filter timeline items to show only biology-related
+                const timelineItems = document.querySelectorAll('[data-testid^="timeline-item-"]');
+                timelineItems.forEach(item => {
+                  const content = item.textContent?.toLowerCase() || '';
+                  (item as HTMLElement).style.display = 
+                    content.includes('biology') || content.includes('cell') || content.includes('plant') ? 'block' : 'none';
+                });
+              }}
+            >
+              Biology
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                // Filter timeline items to show only physics-related
+                const timelineItems = document.querySelectorAll('[data-testid^="timeline-item-"]');
+                timelineItems.forEach(item => {
+                  const content = item.textContent?.toLowerCase() || '';
+                  (item as HTMLElement).style.display = 
+                    content.includes('physics') || content.includes('radiation') || content.includes('gravity') ? 'block' : 'none';
+                });
+              }}
+            >
+              Physics
+            </Button>
           </div>
         </div>
 
